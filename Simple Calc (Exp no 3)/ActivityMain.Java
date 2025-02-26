@@ -1,0 +1,138 @@
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends Activity implements OnClickListener {
+
+    Button nine, eig, sev, six, fiv, four, thr, two, one, zero, dot, plus, mins, div, mul, eq, cl;
+    EditText et;
+    String s = "0";
+    double result = 0;
+    char lO = ' ';
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        nine = (Button) findViewById(R.id.b9);
+        eig = (Button) findViewById(R.id.b8);
+        sev = (Button) findViewById(R.id.b7);
+        six = (Button) findViewById(R.id.b6);
+        fiv = (Button) findViewById(R.id.b5);
+        four = (Button) findViewById(R.id.b4);
+
+        thr = (Button) findViewById(R.id.b3);
+        two = (Button) findViewById(R.id.b2);
+        one = (Button) findViewById(R.id.b1);
+        zero = (Button) findViewById(R.id.b0);
+        dot = (Button) findViewById(R.id.bd);
+        plus = (Button) findViewById(R.id.bpl);
+        mins = (Button) findViewById(R.id.bmin);
+        div = (Button) findViewById(R.id.bdiv);
+        mul = (Button) findViewById(R.id.bmul);
+        eq = (Button) findViewById(R.id.beq);
+        cl = (Button) findViewById(R.id.bcl);
+        et = (EditText) findViewById(R.id.tv);
+        nine.setOnClickListener(this);
+        eig.setOnClickListener(this);
+        sev.setOnClickListener(this);
+        six.setOnClickListener(this);
+        fiv.setOnClickListener(this);
+        four.setOnClickListener(this);
+        thr.setOnClickListener(this);
+        two.setOnClickListener(this);
+        one.setOnClickListener(this);
+        dot.setOnClickListener(this);
+        plus.setOnClickListener(this);
+        mins.setOnClickListener(this);
+        div.setOnClickListener(this);
+        mul.setOnClickListener(this);
+        eq.setOnClickListener(this);
+        cl.setOnClickListener(this);
+        et.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.b0:
+            case R.id.b1:
+            case R.id.b2:
+            case R.id.b3:
+            case R.id.b4:
+            case R.id.b5:
+            case R.id.b6:
+            case R.id.b7:
+            case R.id.b8:
+            case R.id.b9:
+            case R.id.bd: // Added case for decimal point
+                String inDigit = ((Button) v).getText().toString();
+                if (s.equals("0") && !inDigit.equals(".")) {
+                    s = inDigit;
+                } else {
+                    if (inDigit.equals(".") && s.contains(".")) {
+                        // Do nothing if there's already a decimal point
+                    } else {
+                        s += inDigit;
+                    }
+                }
+                et.setText(s);
+                if (lO == '=') {
+                    result = 0;
+                    lO = ' ';
+                }
+                break;
+            case R.id.bpl:
+                compute();
+                lO = '+';
+                break;
+            case R.id.bmin:
+                compute();
+                lO = '-';
+                break;
+            case R.id.bdiv:
+                compute();
+                lO = '/';
+                break;
+            case R.id.bmul:
+                compute();
+                lO = '*';
+                break;
+            case R.id.beq:
+                compute();
+                lO = '=';
+                break;
+            case R.id.bcl:
+                result = 0;
+                s = "0";
+                lO = ' ';
+                et.setText("0");
+                break;
+        }
+    }
+
+    private void compute() {
+        // TODO Auto-generated method stub
+        double inNum = Double.parseDouble(s); // Changed to double to handle decimal numbers
+        s = "0";
+        if (lO == ' ') {
+            result = inNum;
+        } else if (lO == '+') {
+            result += inNum;
+        } else if (lO == '-') {
+            result -= inNum;
+        } else if (lO == '*') {
+            result *= inNum;
+        } else if (lO == '/') {
+            result /= inNum;
+        } else if (lO == '=') {
+            // Keep the result for the next operation
+        }
+        et.setText(String.valueOf(result));
+    }
+}
